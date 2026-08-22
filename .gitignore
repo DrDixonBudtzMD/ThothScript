@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+
+# Electron / packaging output
+dist/
+build/
+out/
+release/
+*.asar
+*.exe
+*.msi
+*.dmg
+*.AppImage
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local environment / secrets
+.env
+.env.*
+!.env.example
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+
+# Temporary / backup files
+*.tmp
+*.temp
+*.bak
+*~
+
+# Coverage / caches
+coverage/
+.cache/
+.nyc_output/
