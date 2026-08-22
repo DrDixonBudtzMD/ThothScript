@@ -1,6 +1,6 @@
 # Public Release Checklist
 
-This checklist separates **source visibility** from a **general public binary release**. The repository can be made public before every binary-release item is complete, provided the README clearly states the pre-release status and known limitations.
+This checklist separates **public source visibility** from a **general public binary release**. The repository can be made public before every binary-release item is complete if the README clearly states the pre-release status and known limitations.
 
 ## Repository readiness
 
@@ -13,39 +13,57 @@ This checklist separates **source visibility** from a **general public binary re
 - [x] Changelog added.
 - [x] Copyright/use position documented without accidentally granting an open-source license.
 - [x] Existing source reviewed for obvious embedded credentials/secrets before public release preparation.
+- [x] Dependency monitoring configured with Dependabot.
+- [x] Accidental npm publication disabled with `private: true`.
 
-## Source-release blockers / follow-up
+## Source-release hardening
 
-- [ ] Generate and commit `package-lock.json` using a trusted local npm install so dependency resolution is reproducible.
-- [ ] Upgrade Electron from the 30.x dependency line to a currently supported release.
-- [ ] Re-test the application after the Electron upgrade.
-- [ ] Review all IPC handlers for strict validation of filesystem paths and payload shapes.
-- [ ] Review Markdown/HTML rendering paths for injection and unsafe navigation behavior.
-- [ ] Add automated syntax/smoke checks.
+- [ ] Generate, review, and commit `package-lock.json` so dependency resolution is reproducible.
+- [x] Upgrade Electron from the unsupported 30.x line to supported Electron `^43.4.0`.
+- [x] Replace deprecated `electron-packager` with `@electron/packager` `^20.3.0`.
+- [x] Add automated source/dependency validation workflow for Windows and Linux.
+- [x] Review Markdown/HTML rendering paths for obvious script injection and unsafe navigation behavior.
+- [x] Add explicit navigation/window-open protections for external content.
+- [x] Add a restrictive renderer Content Security Policy.
+- [ ] Complete a clean runtime test after the Electron/toolchain upgrade.
 
 ## Electron hardening
 
 - [x] `contextIsolation` enabled for the main application window.
 - [x] `nodeIntegration` disabled for the main application window.
-- [x] Renderer access to privileged operations is routed through a preload bridge.
-- [ ] Test application behavior with renderer sandboxing enabled.
-- [ ] Enable sandboxing if testing confirms preload/file workflows remain functional.
+- [x] Renderer access to privileged operations routed through a preload bridge.
+- [x] Renderer sandboxing enabled for the primary application window.
+- [ ] Verify all editor/file workflows with renderer sandboxing enabled on Windows.
+- [ ] Review IPC payload validation as the application grows; current handlers intentionally permit user-selected arbitrary filesystem paths because ThothScript is a desktop editor.
 - [ ] Restrict or remove development-only menu items such as DevTools/reload in packaged production builds if appropriate.
-- [ ] Add explicit navigation/window-open protections for unexpected external content.
-- [ ] Add or verify an appropriate Content Security Policy for renderer content.
 
 ## Build and release
 
 - [ ] Clean install from a fresh clone succeeds.
+- [ ] `npm run check` succeeds from a fresh clone.
 - [ ] `npm start` succeeds from a fresh clone.
 - [ ] Windows x64 packaging succeeds.
 - [ ] Smoke-test open/save/save-as/folder explorer/workspace restore.
 - [ ] Smoke-test search/replace and verify safety backups.
-- [ ] Smoke-test Markdown preview, printing, and PDF export.
+- [ ] Smoke-test Markdown preview and external-link behavior.
+- [ ] Smoke-test printing and PDF export.
 - [ ] Verify recovery/session behavior after an intentional app interruption.
 - [ ] Create a `v0.3.1` Git tag/release only after the tested commit is selected.
 - [ ] Add release notes with known limitations.
 - [ ] Decide whether distributed binaries will be code-signed.
+
+## Public-source gate
+
+Before changing repository visibility to Public:
+
+- [x] No obvious credentials/secrets identified in the migration snapshot.
+- [x] Ownership/copyright position documented.
+- [x] README clearly marks the project as pre-release.
+- [x] Security reporting instructions exist.
+- [x] Main branch remains protected from release-prep work by pull-request review.
+- [ ] Review the final PR diff once CI/check results are available.
+
+A public **source repository** may be appropriate once the final PR is reviewed even if binary-release smoke tests remain open. Do not publish a general end-user binary as a stable release until the Build and release section is complete.
 
 ## Licensing decision
 
