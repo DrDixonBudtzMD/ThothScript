@@ -1,4 +1,4 @@
-# ThothScript Rewrite v0.3 — Pro Workspace Build
+# ThothScript Rewrite v0.3
 
 This is the next stable milestone after v0.2.1.
 
