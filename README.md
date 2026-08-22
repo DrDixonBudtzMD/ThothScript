@@ -49,17 +49,15 @@ Version 0.3.1 focuses on stability, recovery, and public-release hardening:
 - npm
 - A supported desktop environment for Electron
 
-The project uses Electron `^43.4.0` and `@electron/packager` `^20.3.0` as development dependencies.
+The project uses Electron `^43.4.0` and `@electron/packager` `^20.3.0` as development dependencies. Dependency resolution is pinned by the committed `package-lock.json`.
 
 ## Run from source
 
 ```bash
-npm install
+npm ci
 npm run check
 npm start
 ```
-
-Until `package-lock.json` is committed, `npm install` is required rather than `npm ci`. A reproducible lockfile is a release gate tracked in [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md).
 
 ## Package for Windows
 
@@ -73,13 +71,14 @@ The packaging script currently targets Windows x64. Packaged output is intention
 
 ```text
 ThothScript/
-├── .github/      # CI and dependency monitoring
-├── main.js       # Electron main process and filesystem/printing IPC
-├── preload.js    # contextBridge API exposed to the renderer
-├── renderer.js   # editor UI behavior
-├── index.html    # application shell and CSP
-├── styles.css    # application styling
-└── package.json  # project metadata, scripts, dependencies
+├── .github/          # CI and dependency monitoring
+├── main.js           # Electron main process and filesystem/printing IPC
+├── preload.js        # contextBridge API exposed to the renderer
+├── renderer.js       # editor UI behavior
+├── index.html        # application shell and CSP
+├── styles.css        # application styling
+├── package.json      # project metadata, scripts, dependencies
+└── package-lock.json # reproducible dependency graph
 ```
 
 ## Security model
@@ -107,15 +106,12 @@ Users should still keep independent backups or version control for important wor
 
 ## Automated checks
 
-The repository includes GitHub Actions validation for Windows and Linux. CI resolves development dependencies and runs JavaScript syntax checks. Dependabot configuration monitors npm and GitHub Actions dependencies.
-
-The CI workflow also generates a candidate `package-lock.json` artifact so the final lockfile can be reviewed and committed rather than hand-authored.
+The repository includes GitHub Actions validation for Windows and Linux. CI installs the exact dependency graph from `package-lock.json` with `npm ci` and runs JavaScript syntax and package-metadata checks. Dependabot monitors npm and GitHub Actions dependencies.
 
 ## Roadmap
 
 Near-term work includes:
 
-- Commit and enforce a reproducible dependency lockfile
 - Complete clean-clone Windows launch and packaging tests
 - Smoke-test open/save/search/replace/recovery/Markdown/print/PDF workflows with sandboxing enabled
 - Signed release builds
