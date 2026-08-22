@@ -6,6 +6,17 @@ The project is still pre-1.0, so interfaces and behavior may change between mino
 
 ## [Unreleased]
 
+### Community foundation
+
+- Added `npm run doctor` project/environment diagnostics.
+- Added a lightweight Node test suite for repository, lockfile and Electron security invariants.
+- Added a combined `npm run verify` developer command.
+- Expanded CI to run diagnostics, syntax checks and tests on Windows and Linux.
+- Added a Windows x64 packaging workflow that uploads temporary test artifacts.
+- Added architecture and development guides for new contributors.
+- Added structured GitHub bug-report and feature-request templates.
+- Expanded the README with clone-to-run, verification and test-build instructions.
+
 ### Public-release hardening
 
 - Added a public-facing project README.
