@@ -28,7 +28,7 @@ ThothScript currently includes:
 
 ## v0.3.1 stability pass
 
-Version 0.3.1 focuses on stability and recovery behavior:
+Version 0.3.1 focuses on stability, recovery, and public-release hardening:
 
 - Clean-content printing instead of printing the application chrome
 - Safety backups before workspace-wide replacement
@@ -38,20 +38,28 @@ Version 0.3.1 focuses on stability and recovery behavior:
 - Recovery-data cleanup after all tabs are saved
 - Safer Markdown links and keyboard-focus polish
 - Additional sidebar-collapse fixes
+- Electron upgraded to the supported 43.x release line
+- Chromium renderer sandbox enabled for the primary window
+- External navigation blocked from replacing the editor window
+- Content Security Policy added to the renderer document
 
 ## Requirements
 
-- Node.js and npm
+- Node.js 22.12 or newer
+- npm
 - A supported desktop environment for Electron
 
-The project currently depends on Electron and electron-packager through `devDependencies`.
+The project uses Electron `^43.4.0` and `@electron/packager` `^20.3.0` as development dependencies.
 
 ## Run from source
 
 ```bash
 npm install
+npm run check
 npm start
 ```
+
+Until `package-lock.json` is committed, `npm install` is required rather than `npm ci`. A reproducible lockfile is a release gate tracked in [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md).
 
 ## Package for Windows
 
@@ -65,19 +73,29 @@ The packaging script currently targets Windows x64. Packaged output is intention
 
 ```text
 ThothScript/
+├── .github/      # CI and dependency monitoring
 ├── main.js       # Electron main process and filesystem/printing IPC
 ├── preload.js    # contextBridge API exposed to the renderer
 ├── renderer.js   # editor UI behavior
-├── index.html    # application shell
+├── index.html    # application shell and CSP
 ├── styles.css    # application styling
 └── package.json  # project metadata, scripts, dependencies
 ```
 
 ## Security model
 
-The primary application window uses Electron context isolation with Node integration disabled. File operations are exposed through a limited preload bridge rather than exposing Node directly to renderer code.
+The primary application window uses:
 
-ThothScript 0.3.1 still has security-hardening work scheduled before a general public binary release. In particular, the Electron runtime needs to be upgraded from the older 30.x dependency line and renderer sandbox compatibility needs to be tested before enabling sandboxing by default.
+- `contextIsolation: true`
+- `nodeIntegration: false`
+- `sandbox: true`
+- a narrow preload/contextBridge API for privileged operations
+- explicit interception of unexpected navigation/window-open requests
+- a Content Security Policy that limits renderer resource loading
+
+Filesystem, printing, PDF, recovery, and workspace operations remain in the Electron main process and are invoked through IPC.
+
+These controls reduce renderer privilege; they do not replace runtime testing. The sandboxed build still needs a clean Windows launch and feature smoke test before a general binary release.
 
 See [SECURITY.md](SECURITY.md) for vulnerability reporting and release-security notes.
 
@@ -87,14 +105,19 @@ ThothScript stores recovery/session information in the application's user-data d
 
 Users should still keep independent backups or version control for important work. Recovery features are a safety net, not a substitute for backups.
 
+## Automated checks
+
+The repository includes GitHub Actions validation for Windows and Linux. CI resolves development dependencies and runs JavaScript syntax checks. Dependabot configuration monitors npm and GitHub Actions dependencies.
+
+The CI workflow also generates a candidate `package-lock.json` artifact so the final lockfile can be reviewed and committed rather than hand-authored.
+
 ## Roadmap
 
 Near-term work includes:
 
-- Upgrade to a currently supported Electron release
-- Test and enable Chromium renderer sandboxing where compatible
-- Add reproducible dependency locking
-- Automated smoke tests / CI
+- Commit and enforce a reproducible dependency lockfile
+- Complete clean-clone Windows launch and packaging tests
+- Smoke-test open/save/search/replace/recovery/Markdown/print/PDF workflows with sandboxing enabled
 - Signed release builds
 - Optional Monaco editor layer while retaining the stable textarea fallback
 - Broader Windows/macOS/Linux validation
