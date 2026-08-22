@@ -1,0 +1,49 @@
+name: Windows Package
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'main.js'
+      - 'preload.js'
+      - 'renderer.js'
+      - 'index.html'
+      - 'styles.css'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/windows-package.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    name: Package Windows x64
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Verify project
+        run: npm run verify
+
+      - name: Package Windows x64
+        run: npm run package-win -- --out=artifacts
+
+      - name: Upload packaged application
+        uses: actions/upload-artifact@v4
+        with:
+          name: ThothScript-Windows-x64-${{ github.sha }}
+          path: artifacts/ThothScript-win32-x64/
+          if-no-files-found: error
+          retention-days: 14
