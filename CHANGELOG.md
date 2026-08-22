@@ -6,13 +6,20 @@ The project is still pre-1.0, so interfaces and behavior may change between mino
 
 ## [Unreleased]
 
-### Public-release preparation
+### Public-release hardening
 
 - Added a public-facing project README.
 - Added security reporting guidance.
 - Added contribution guidance.
 - Added copyright/use notice while licensing remains undecided.
-- Documented Electron runtime and sandbox hardening work required before a general public binary release.
+- Added GitHub Actions validation for Windows and Linux.
+- Added Dependabot monitoring for npm and GitHub Actions dependencies.
+- Upgraded Electron from the unsupported 30.x line to `^43.4.0`.
+- Replaced deprecated `electron-packager` with `@electron/packager` `^20.3.0`.
+- Enabled renderer sandboxing for the primary application window.
+- Added external navigation/window-open restrictions.
+- Added a restrictive Content Security Policy.
+- Marked the npm package private to prevent accidental publication.
 
 ## [0.3.1] - 2026
 
