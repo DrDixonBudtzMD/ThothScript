@@ -7,7 +7,7 @@
   "scripts": {
     "start": "electron .",
     "doctor": "node scripts/doctor.js",
-    "check": "node --check main.js && node --check preload.js && node --check renderer.js && node --check scripts/doctor.js",
+    "check": "node --check main.js && node --check preload.js && node --check renderer.js && node --check community-ui.js && node --check scripts/doctor.js",
     "test": "node --test tests/*.test.js",
     "verify": "npm run doctor && npm run check && npm test",
     "package-win": "npx @electron/packager . ThothScript --platform=win32 --arch=x64 --overwrite"
