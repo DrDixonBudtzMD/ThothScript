@@ -18,10 +18,11 @@ This checklist separates **public source visibility** from a **general public bi
 
 ## Source-release hardening
 
-- [ ] Generate, review, and commit `package-lock.json` so dependency resolution is reproducible.
+- [x] Generate, review, and commit `package-lock.json` so dependency resolution is reproducible.
 - [x] Upgrade Electron from the unsupported 30.x line to supported Electron `^43.4.0`.
 - [x] Replace deprecated `electron-packager` with `@electron/packager` `^20.3.0`.
 - [x] Add automated source/dependency validation workflow for Windows and Linux.
+- [x] Enforce the committed dependency graph in CI with `npm ci`.
 - [x] Review Markdown/HTML rendering paths for obvious script injection and unsafe navigation behavior.
 - [x] Add explicit navigation/window-open protections for external content.
 - [x] Add a restrictive renderer Content Security Policy.
@@ -39,9 +40,9 @@ This checklist separates **public source visibility** from a **general public bi
 
 ## Build and release
 
-- [ ] Clean install from a fresh clone succeeds.
-- [ ] `npm run check` succeeds from a fresh clone.
-- [ ] `npm start` succeeds from a fresh clone.
+- [x] Windows and Linux CI resolve the locked dependency graph and pass source syntax/package metadata checks.
+- [x] `npm run check` succeeds in Windows and Linux CI.
+- [ ] `npm start` succeeds from a fresh Windows clone.
 - [ ] Windows x64 packaging succeeds.
 - [ ] Smoke-test open/save/save-as/folder explorer/workspace restore.
 - [ ] Smoke-test search/replace and verify safety backups.
@@ -60,10 +61,12 @@ Before changing repository visibility to Public:
 - [x] Ownership/copyright position documented.
 - [x] README clearly marks the project as pre-release.
 - [x] Security reporting instructions exist.
-- [x] Main branch remains protected from release-prep work by pull-request review.
-- [ ] Review the final PR diff once CI/check results are available.
+- [x] Reproducible dependency lock committed.
+- [x] Main branch remains isolated from release-prep work by pull-request review.
+- [ ] Final Windows/Linux `npm ci` CI run passes on the exact merge candidate.
+- [ ] Review the final PR diff after that CI run.
 
-A public **source repository** may be appropriate once the final PR is reviewed even if binary-release smoke tests remain open. Do not publish a general end-user binary as a stable release until the Build and release section is complete.
+A public **source repository** may be appropriate once the public-source gate is complete even if binary-release smoke tests remain open. Do not publish a general end-user binary as a stable release until the Build and release section is complete.
 
 ## Licensing decision
 
