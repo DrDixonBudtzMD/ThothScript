@@ -1,0 +1,78 @@
+name: Bug report
+description: Report a reproducible ThothScript problem
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve ThothScript. Remove private file contents, credentials and sensitive paths before posting.
+
+  - type: input
+    id: version
+    attributes:
+      label: ThothScript version
+      placeholder: 0.3.1 or commit SHA
+    validations:
+      required: true
+
+  - type: dropdown
+    id: run_mode
+    attributes:
+      label: How are you running ThothScript?
+      options:
+        - From source with npm start
+        - GitHub Actions packaged artifact
+        - Locally packaged Windows build
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: Windows 11 24H2
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      description: Give the smallest reliable sequence that triggers the issue.
+      placeholder: |
+        1. Open...
+        2. Click...
+        3. Observe...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Diagnostics
+      description: Paste relevant output from `npm run doctor` or CI, with private information removed.
+      render: text
+
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety check
+      options:
+        - label: I removed passwords, tokens, private documents and sensitive local paths from this report.
+          required: true
