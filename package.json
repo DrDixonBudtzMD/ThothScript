@@ -1,15 +1,20 @@
 {
-  "name": "thothscript-rewrite",
+  "name": "thothscript",
   "productName": "ThothScript",
   "version": "0.3.1",
-  "description": "ThothScript v0.3.1 Stability Pass: clean print, safer replace, large-file guards, session/recovery cleanup, and UI polish.",
+  "description": "A lightweight Electron desktop editor for plain text, code, Markdown, workspaces, search, recovery, printing, and PDF export.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "package-win": "npx electron-packager . ThothScript --platform=win32 --arch=x64 --overwrite"
+    "check": "node --check main.js && node --check preload.js && node --check renderer.js",
+    "package-win": "npx @electron/packager . ThothScript --platform=win32 --arch=x64 --overwrite"
+  },
+  "engines": {
+    "node": ">=22.12.0"
   },
   "devDependencies": {
-    "electron": "^30.0.0",
-    "electron-packager": "^17.1.2"
-  }
+    "@electron/packager": "^20.3.0",
+    "electron": "^43.4.0"
+  },
+  "private": true
 }

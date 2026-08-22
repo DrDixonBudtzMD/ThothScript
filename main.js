@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, dialog, ipcMain } = require('electron');
+const { app, BrowserWindow, Menu, dialog, ipcMain, shell } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -66,8 +66,23 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
       nodeIntegration: false,
-      sandbox: false
+      sandbox: true
     }
+  });
+
+  // Keep the editor on its local application document. External links are
+  // delegated to the operating system instead of navigating the app window.
+  win.webContents.setWindowOpenHandler(({ url }) => {
+    if (/^(https?:|mailto:)/i.test(url)) void shell.openExternal(url);
+    return { action: 'deny' };
+  });
+
+  win.webContents.on('will-navigate', (event, url) => {
+    const current = win.webContents.getURL();
+    const sameDocumentAnchor = url.startsWith(`${current.split('#')[0]}#`);
+    if (url === current || sameDocumentAnchor) return;
+    event.preventDefault();
+    if (/^(https?:|mailto:)/i.test(url)) void shell.openExternal(url);
   });
 
   win.loadFile(path.join(__dirname, 'index.html'));
