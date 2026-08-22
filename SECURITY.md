@@ -1,43 +1,29 @@
 # Security Policy
 
-## Supported status
+ThothScript is currently pre-release software. Security reports are welcome, especially for issues involving filesystem access, IPC boundaries, Markdown rendering, navigation, printing/PDF generation, recovery data, or packaged Electron behavior.
 
-ThothScript is currently pre-release software. Version 0.3.1 is suitable for development and testing, but it should not yet be treated as a hardened production editor for sensitive or untrusted content.
+## Supported versions
 
-## Current security posture
-
-The main Electron window uses:
-
-- `contextIsolation: true`
-- `nodeIntegration: false`
-- a preload bridge that exposes a limited application API
-
-Known hardening work before a general public binary release includes:
-
-- upgrading from the Electron 30.x dependency line to a currently supported Electron release;
-- testing renderer sandbox compatibility and enabling sandboxing where practical;
-- adding dependency locking and automated dependency/security checks;
-- reviewing IPC argument validation for filesystem operations;
-- adding automated smoke tests for file open/save, workspace search/replace, printing, and PDF export;
-- producing signed/reproducible release artifacts.
+Only the latest development version on `main` is expected to receive security fixes before the first stable release.
 
 ## Reporting a vulnerability
 
-Please do not publish exploit details, private file paths, credentials, or proof-of-concept payloads in a public issue.
+Please do not publish exploit details in a public issue before a fix or mitigation is available. Use GitHub's private vulnerability reporting feature if it is enabled for the repository. If private reporting is unavailable, open a minimal issue stating that you have a security report and avoid including exploit details, secrets, personal data, or destructive proof-of-concept content.
 
-If GitHub Private Vulnerability Reporting is enabled for this repository, use **Security → Report a vulnerability**. If that option is not available, open a minimal issue stating that you have a security report and need a private reporting channel, without including sensitive technical details.
+## Current security posture
 
-A useful report should include:
+The primary application window uses Electron context isolation, disables renderer Node integration, enables Chromium sandboxing, and exposes privileged operations through a preload/contextBridge API. External navigation/window-opening is intercepted by the main process, and the renderer document includes a restrictive Content Security Policy.
 
-- affected ThothScript version;
-- operating system;
-- clear reproduction steps;
-- expected vs. observed behavior;
-- impact assessment;
-- whether untrusted content or user interaction is required.
+ThothScript is a desktop editor and intentionally allows users to select and edit arbitrary local files. That capability is privileged by design. Renderer code should never receive unrestricted Node.js access as a shortcut around the preload/IPC boundary.
 
-## Security assumptions
+## Release expectations
 
-ThothScript is a local desktop editor with intentional filesystem access selected by the user. Opening, saving, searching, or replacing files can modify local data. Users should maintain independent backups or version control for important work.
+Before a stable public binary release, the project should have:
 
-Do not treat autosave recovery or replace-backups as a complete backup system.
+- a committed dependency lockfile;
+- clean-clone dependency and syntax validation;
+- a Windows launch/package smoke test on the supported Electron line;
+- validation of open/save/search/replace/recovery/Markdown/print/PDF workflows with sandboxing enabled;
+- review of packaged-build behavior and signing strategy.
+
+See `RELEASE_CHECKLIST.md` for the current gate status.
