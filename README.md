@@ -26,22 +26,39 @@ ThothScript currently includes:
 - PDF export
 - Basic large-file guards to reduce accidental renderer freezes
 
-## v0.3.1 stability pass
+## Clone, verify, run
 
-Version 0.3.1 focuses on stability, recovery, and public-release hardening:
+ThothScript now includes a contributor-facing diagnostic and lightweight test suite so a clean checkout can be verified before launching the desktop app.
 
-- Clean-content printing instead of printing the application chrome
-- Safety backups before workspace-wide replacement
-- 16 MB edit guard for unusually large files
-- Missing recent-file cleanup
-- Automatic restore of saved sessions
-- Recovery-data cleanup after all tabs are saved
-- Safer Markdown links and keyboard-focus polish
-- Additional sidebar-collapse fixes
-- Electron upgraded to the supported 43.x release line
-- Chromium renderer sandbox enabled for the primary window
-- External navigation blocked from replacing the editor window
-- Content Security Policy added to the renderer document
+```bash
+git clone https://github.com/DrDixonBudtzMD/ThothScript.git
+cd ThothScript
+npm ci
+npm run doctor
+npm run check
+npm test
+npm start
+```
+
+Or run the full non-GUI verification chain with:
+
+```bash
+npm run verify
+```
+
+`npm run doctor` checks the expected source tree, Node version, package metadata, lockfile alignment, Electron/packager declarations, and other project assumptions. It is intended to make environment problems obvious before debugging the application itself.
+
+## Windows test builds
+
+The repository contains a **Windows Package** GitHub Actions workflow. Pull requests that affect application/package files build a Windows x64 artifact after verification, and maintainers can run the workflow manually at any time.
+
+These artifacts are development/test builds, not code-signed stable releases. They exist so testers can try a reproducible packaged application without building it themselves.
+
+For a local package on Windows:
+
+```bash
+npm run package-win
+```
 
 ## Requirements
 
@@ -51,35 +68,24 @@ Version 0.3.1 focuses on stability, recovery, and public-release hardening:
 
 The project uses Electron `^43.4.0` and `@electron/packager` `^20.3.0` as development dependencies. Dependency resolution is pinned by the committed `package-lock.json`.
 
-## Run from source
-
-```bash
-npm ci
-npm run check
-npm start
-```
-
-## Package for Windows
-
-```bash
-npm run package-win
-```
-
-The packaging script currently targets Windows x64. Packaged output is intentionally excluded from Git with `.gitignore`.
-
 ## Repository layout
 
 ```text
 ThothScript/
-├── .github/          # CI and dependency monitoring
+├── .github/          # CI, package workflow, Dependabot, issue templates
+├── docs/             # architecture and development guides
+├── scripts/          # project diagnostics / contributor tooling
+├── tests/            # lightweight Node tests and security invariants
 ├── main.js           # Electron main process and filesystem/printing IPC
 ├── preload.js        # contextBridge API exposed to the renderer
 ├── renderer.js       # editor UI behavior
 ├── index.html        # application shell and CSP
 ├── styles.css        # application styling
-├── package.json      # project metadata, scripts, dependencies
+├── package.json      # project metadata and commands
 └── package-lock.json # reproducible dependency graph
 ```
+
+For an architectural map, see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). For a contributor walkthrough, see [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
 
 ## Security model
 
@@ -94,7 +100,7 @@ The primary application window uses:
 
 Filesystem, printing, PDF, recovery, and workspace operations remain in the Electron main process and are invoked through IPC.
 
-These controls reduce renderer privilege; they do not replace runtime testing. The sandboxed build still needs a clean Windows launch and feature smoke test before a general binary release.
+The automated test suite also checks that core Electron isolation controls and the renderer CSP remain present, so accidental security regressions are caught in CI.
 
 See [SECURITY.md](SECURITY.md) for vulnerability reporting and release-security notes.
 
@@ -106,23 +112,48 @@ Users should still keep independent backups or version control for important wor
 
 ## Automated checks
 
-The repository includes GitHub Actions validation for Windows and Linux. CI installs the exact dependency graph from `package-lock.json` with `npm ci` and runs JavaScript syntax and package-metadata checks. Dependabot monitors npm and GitHub Actions dependencies.
+Every pull request to `main` runs on Windows and Linux and performs:
+
+```text
+npm ci
+npm run doctor
+npm run check
+npm test
+```
+
+Dependabot monitors npm and GitHub Actions dependencies. Application/package changes also trigger a Windows packaging job that uploads the packaged application as a temporary Actions artifact.
+
+## v0.4 community-foundation work
+
+The current development cycle is focused on making the repository useful to people other than its original developer:
+
+- self-diagnostic `npm run doctor` command
+- built-in Node test suite
+- explicit architecture documentation
+- clone-to-run development instructions
+- structured bug and feature-request templates
+- reproducible Windows package artifacts in GitHub Actions
+- stronger CI gates around security-sensitive Electron configuration
+
+The editor remains intentionally small while the surrounding engineering/release structure becomes more professional.
 
 ## Roadmap
 
 Near-term work includes:
 
-- Complete clean-clone Windows launch and packaging tests
-- Smoke-test open/save/search/replace/recovery/Markdown/print/PDF workflows with sandboxing enabled
-- Signed release builds
-- Optional Monaco editor layer while retaining the stable textarea fallback
-- Broader Windows/macOS/Linux validation
+- complete Windows runtime smoke tests against packaged artifacts
+- smoke-test open/save/search/replace/recovery/Markdown/print/PDF workflows with sandboxing enabled
+- expose clearer in-app About/diagnostics information
+- improve IPC input validation
+- signed release builds
+- optional Monaco editor layer while retaining the stable textarea fallback
+- broader Windows/macOS/Linux validation
 
 ## Contributing
 
-The project is being prepared for public development, but source-code contributions are not yet being accepted under an open-source contribution model. Bug reports, reproducible test cases, documentation corrections, and feature discussions are welcome.
+Bug reports, reproducible test cases, documentation corrections, usability feedback and feature discussions are welcome. Substantial third-party source-code contributions remain intentionally limited until the project adopts explicit licensing/contributor terms.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
 
 ## License and copyright
 
