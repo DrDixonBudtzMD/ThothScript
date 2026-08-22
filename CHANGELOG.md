@@ -6,6 +6,14 @@ The project is still pre-1.0, so interfaces and behavior may change between mino
 
 ## [Unreleased]
 
+### Safety and diagnostics
+
+- Added discard confirmation before closing dirty tabs.
+- Added an unsaved-work warning when closing/reloading the application window.
+- Added an in-app About / Diagnostics panel on the info rail button and `F1`.
+- Diagnostics report preload-bridge status, open/dirty tab counts, preview state, platform, and user agent without exposing document contents.
+- Added automated checks so the safety/diagnostics layer remains part of `npm run verify`.
+
 ### Community foundation
 
 - Added `npm run doctor` project/environment diagnostics.

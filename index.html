@@ -27,7 +27,7 @@
       <button class="railbtn" id="railFocus" title="Focus Mode">
         <svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>
       </button>
-      <button class="railbtn" id="railInfo" title="Info">
+      <button class="railbtn" id="railInfo" title="About / Diagnostics">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 10v7M12 7h.01"/></svg>
       </button>
     </aside>
@@ -78,54 +78,26 @@
         </div>
 
         <div class="iconbar">
-          <button class="iconbtn" id="btnNewText" title="New Plain Text">
-            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
-          </button>
-          <button class="iconbtn" id="btnNewCode" title="New Code File">
-            <svg viewBox="0 0 24 24"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"/></svg>
-          </button>
-          <button class="iconbtn" id="btnNewMarkdown" title="New Markdown">
-            <svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M7 15V9l3 4 3-4v6M16 9v6"/></svg>
-          </button>
-          <button class="iconbtn" id="btnOpenFile" title="Open File">
-            <svg viewBox="0 0 24 24"><path d="M4 5h6l2 2h8v12H4z"/><path d="M12 10v7m0 0l-3-3m3 3l3-3"/></svg>
-          </button>
-          <button class="iconbtn" id="btnSave" title="Save">
-            <svg viewBox="0 0 24 24"><path d="M5 20h14V8l-3-3H5z"/><path d="M8 20v-7h8v7M8 5v5h7"/></svg>
-          </button>
-          <button class="iconbtn" id="btnSaveAs" title="Save As">
-            <svg viewBox="0 0 24 24"><path d="M4 20h16"/><path d="M7 17l10-10 2 2-10 10H7z"/></svg>
-          </button>
+          <button class="iconbtn" id="btnNewText" title="New Plain Text"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+          <button class="iconbtn" id="btnNewCode" title="New Code File"><svg viewBox="0 0 24 24"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"/></svg></button>
+          <button class="iconbtn" id="btnNewMarkdown" title="New Markdown"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M7 15V9l3 4 3-4v6M16 9v6"/></svg></button>
+          <button class="iconbtn" id="btnOpenFile" title="Open File"><svg viewBox="0 0 24 24"><path d="M4 5h6l2 2h8v12H4z"/><path d="M12 10v7m0 0l-3-3m3 3l3-3"/></svg></button>
+          <button class="iconbtn" id="btnSave" title="Save"><svg viewBox="0 0 24 24"><path d="M5 20h14V8l-3-3H5z"/><path d="M8 20v-7h8v7M8 5v5h7"/></svg></button>
+          <button class="iconbtn" id="btnSaveAs" title="Save As"><svg viewBox="0 0 24 24"><path d="M4 20h16"/><path d="M7 17l10-10 2 2-10 10H7z"/></svg></button>
           <span class="sep"></span>
-          <button class="iconbtn" id="btnMarkdownPreview" title="Markdown Preview">
-            <svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M8 15V9l3 4 3-4v6M16 12h2"/></svg>
-          </button>
-          <button class="iconbtn" id="btnExportPdf" title="Export PDF">
-            <svg viewBox="0 0 24 24"><path d="M7 3h7l3 3v15H7z"/><path d="M14 3v4h4"/><path d="M9 14h6M9 17h4"/></svg>
-          </button>
-          <button class="iconbtn" id="btnPrint" title="Print">
-            <svg viewBox="0 0 24 24"><path d="M7 8V4h10v4"/><path d="M7 17v3h10v-3"/><path d="M6 10h12v7H4v-5a2 2 0 0 1 2-2z"/></svg>
-          </button>
+          <button class="iconbtn" id="btnMarkdownPreview" title="Markdown Preview"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M8 15V9l3 4 3-4v6M16 12h2"/></svg></button>
+          <button class="iconbtn" id="btnExportPdf" title="Export PDF"><svg viewBox="0 0 24 24"><path d="M7 3h7l3 3v15H7z"/><path d="M14 3v4h4"/><path d="M9 14h6M9 17h4"/></svg></button>
+          <button class="iconbtn" id="btnPrint" title="Print"><svg viewBox="0 0 24 24"><path d="M7 8V4h10v4"/><path d="M7 17v3h10v-3"/><path d="M6 10h12v7H4v-5a2 2 0 0 1 2-2z"/></svg></button>
           <span class="sep"></span>
-          <button class="iconbtn primary" id="btnToggleMode" title="Toggle Plain/Code">
-            <svg viewBox="0 0 24 24"><path d="M8 8h8M8 12h5M8 16h8"/><path d="M16 12l2 2 2-2"/></svg>
-          </button>
-          <button class="iconbtn" id="btnCommand" title="Command Palette">
-            <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h16"/></svg>
-          </button>
-          <button class="iconbtn" id="btnFocus" title="Focus Mode">
-            <svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>
-          </button>
+          <button class="iconbtn primary" id="btnToggleMode" title="Toggle Plain/Code"><svg viewBox="0 0 24 24"><path d="M8 8h8M8 12h5M8 16h8"/><path d="M16 12l2 2 2-2"/></svg></button>
+          <button class="iconbtn" id="btnCommand" title="Command Palette"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h16"/></svg></button>
+          <button class="iconbtn" id="btnFocus" title="Focus Mode"><svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg></button>
         </div>
 
-        <div class="statusbox">
-          <div id="hint">Ready</div>
-          <div id="status">Bridge checking...</div>
-        </div>
+        <div class="statusbox"><div id="hint">Ready</div><div id="status">Bridge checking...</div></div>
       </header>
 
       <section class="tabs" id="tabs"></section>
-
       <section class="editorShell" id="editorShell">
         <div id="lineNums" class="lineNums">1</div>
         <div class="editorwrap">
@@ -137,21 +109,16 @@
       </section>
 
       <footer class="statusbar">
-        <span id="fileInfo">No file</span>
-        <span id="cursorInfo">Ln 1, Col 1</span>
-        <span id="modeInfo">Plain Text</span>
-        <span id="wordInfo">Words: 0 | Chars: 0</span>
+        <span id="fileInfo">No file</span><span id="cursorInfo">Ln 1, Col 1</span><span id="modeInfo">Plain Text</span><span id="wordInfo">Words: 0 | Chars: 0</span>
       </footer>
     </main>
   </div>
 
   <div id="commandOverlay" class="commandOverlay" style="display:none;">
-    <div class="commandBox">
-      <input id="commandInput" placeholder="Type a command..." />
-      <div id="commandList" class="commandList"></div>
-    </div>
+    <div class="commandBox"><input id="commandInput" placeholder="Type a command..." /><div id="commandList" class="commandList"></div></div>
   </div>
 
   <script src="./renderer.js"></script>
+  <script src="./community-ui.js"></script>
 </body>
 </html>

@@ -15,6 +15,7 @@ const requiredFiles = [
   'main.js',
   'preload.js',
   'renderer.js',
+  'community-ui.js',
   'index.html',
   'styles.css',
   'package.json',

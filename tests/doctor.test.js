@@ -11,6 +11,7 @@ const requiredFiles = [
   'main.js',
   'preload.js',
   'renderer.js',
+  'community-ui.js',
   'index.html',
   'styles.css',
   'README.md',
@@ -31,6 +32,7 @@ test('package remains private and exposes required scripts', () => {
   assert.equal(typeof pkg.scripts?.['package-win'], 'string');
   assert.equal(typeof pkg.scripts?.doctor, 'string');
   assert.equal(typeof pkg.scripts?.test, 'string');
+  assert.match(pkg.scripts?.check || '', /community-ui\.js/);
 });
 
 test('security-sensitive runtime dependencies are declared', () => {
@@ -51,6 +53,7 @@ test('renderer document keeps a restrictive content security policy', () => {
   assert.match(html, /Content-Security-Policy/i);
   assert.match(html, /default-src 'self'/);
   assert.match(html, /object-src 'none'/);
+  assert.match(html, /community-ui\.js/);
 });
 
 test('main window keeps Electron isolation controls', () => {
@@ -58,4 +61,13 @@ test('main window keeps Electron isolation controls', () => {
   assert.match(main, /contextIsolation:\s*true/);
   assert.match(main, /nodeIntegration:\s*false/);
   assert.match(main, /sandbox:\s*true/);
+});
+
+test('community UI keeps unsaved-work protection and diagnostics entry points', () => {
+  const ui = fs.readFileSync(path.join(root, 'community-ui.js'), 'utf8');
+  assert.match(ui, /discard unsaved changes/i);
+  assert.match(ui, /beforeunload/);
+  assert.match(ui, /railInfo/);
+  assert.match(ui, /window\.thoth\?\.ping/);
+  assert.match(ui, /event\.key === 'F1'/);
 });
