@@ -1,13 +1,15 @@
-# Copyright and Use Notice
+# Copyright, Open-Source, and Project Identity
 
-ThothScript is currently distributed without an open-source license.
+ThothScript is open-source software licensed under **GPL-3.0-or-later**. See `LICENSE`.
 
-Copyright © 2026 the ThothScript project owner. All rights reserved.
+Copyright in the original Groundstate/ThothScript code remains with its copyright holder(s), and contributors retain copyright in their contributions unless they separately agree otherwise. Open-sourcing the code does not surrender copyright: it grants the public defined rights under the GPL.
 
-Public availability of source code in this repository is provided for transparency, evaluation, discussion, issue reporting, and project development. Unless permission is granted separately, no license is provided to reproduce, redistribute, modify, sublicense, sell, or create derivative distributions of ThothScript beyond rights that apply under applicable law or GitHub's platform terms.
+The GPL permits use, study, modification, and redistribution of covered code, including commercial use. If someone distributes a covered modified/derivative version, the GPL's source-code and license obligations apply. This is the project's core "keep improvements open" philosophy.
 
-Third-party software used by ThothScript remains subject to its own licenses and copyright notices. This notice does not claim ownership of Electron, Node.js, Chromium, `@electron/packager`, or other third-party components.
+The software license does **not** grant rights to falsely claim authorship, endorsement, or ownership of the Groundstate Technology or ThothScript project identity. Project names, logos, artwork, and branding may have separate trademark/copyright rights and are not automatically licensed merely because the source code is GPL-licensed.
 
-A formal open-source, source-available, or commercial licensing model may replace this notice in a future release. Until then, do not assume that public source visibility means the project is open source.
+Forks are welcome. Honest attribution is encouraged. A fork should not present itself as the official Groundstate release unless authorized to do so.
 
-This file is intended as a clear project copyright notice, not as legal advice or a substitute for review by qualified counsel where a specific licensing arrangement is commercially important.
+Third-party dependencies and assets remain subject to their respective licenses and notices.
+
+This notice describes the project's intended licensing posture and is not legal advice.
