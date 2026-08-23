@@ -1,40 +1,14 @@
 # Contributing to ThothScript
 
-Thanks for your interest in improving ThothScript.
+Thanks for helping build ThothScript. The project is community-buildable open-source software under **GPL-3.0-or-later**.
 
-## Current contribution policy
+## Contributions are welcome
 
-ThothScript is being prepared for public development, but it does not yet use an open-source source-code contribution model. Until a project license and contributor terms are deliberately adopted, please **do not submit substantial source-code pull requests**.
+Bug fixes, features, tests, documentation, accessibility work, platform support, UX improvements, performance work, and security hardening are welcome through issues and pull requests.
 
-The following contributions are welcome now:
-
-- bug reports;
-- reproducible test cases;
-- documentation corrections;
-- usability feedback;
-- feature proposals;
-- platform-compatibility reports;
-- security reports through the process in `SECURITY.md`.
-
-## Bug reports
-
-Please include:
-
-- ThothScript version;
-- operating system and version;
-- Node.js/npm version when running from source;
-- exact reproduction steps;
-- expected behavior;
-- observed behavior;
-- relevant console output or screenshots, with private information removed.
-
-## Feature requests
-
-Explain the problem first, then the proposed behavior. Small, composable changes are preferred over features that substantially increase editor complexity or undermine the stable fallback editing core.
+By submitting a contribution, you represent that you have the right to submit it and agree that your contribution is provided under the repository's GPL-3.0-or-later license. You retain copyright in your contribution; no copyright assignment to Groundstate is required by this policy.
 
 ## Development principles
-
-Changes should preserve these project priorities:
 
 1. Local-first desktop behavior.
 2. Predictable file operations.
@@ -45,4 +19,12 @@ Changes should preserve these project priorities:
 
 ## Pull requests
 
-Source-code pull requests may be enabled later after licensing and contributor terms are finalized. At that point this document will be updated with branch, test, formatting, and review requirements.
+Keep PRs reasonably focused. Explain what changed, why, how it was tested, and any security/privacy implications. Run the repository verification commands before submitting when possible. Maintainers may request changes or decline changes that conflict with project scope, safety, maintainability, or licensing.
+
+## Forks and project identity
+
+Forking is welcome under the GPL. Please do not represent a fork as an official Groundstate/ThothScript release or imply endorsement without permission. The GPL covers source code; project names, logos, and branding are separate from the code license.
+
+## Security
+
+Please use the process in `SECURITY.md` for vulnerabilities that should not be disclosed publicly before a fix is available.
