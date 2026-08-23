@@ -1,166 +1,93 @@
 # ThothScript
 
-ThothScript is a lightweight desktop editor built with Electron for plain text, code, Markdown, and small workspace workflows. It is designed around a stable textarea-based editing core with practical desktop features rather than a browser-only editing experience.
+ThothScript is a lightweight desktop editor built with Electron for plain text, code, Markdown, and small workspace workflows.
 
 > **Project status:** pre-release / active development  
 > **Current version:** 0.3.1  
-> **Primary development target:** Windows  
-> **macOS/Linux:** not yet release-tested
+> **Primary development target:** Windows
+
+## Open-source philosophy
+
+ThothScript is licensed under **GPL-3.0-or-later**. Use it, study it, modify it, fork it, and contribute improvements. The GPL is intentional: distributed covered derivatives must preserve the same source-code freedoms instead of taking the shared code closed.
+
+Open source does not mean abandoned ownership. Copyright remains with the applicable copyright holders, including contributors for their own contributions. Groundstate/ThothScript names, logos, artwork, and official-project identity are separate from the source-code license, so forks should not claim to be official Groundstate releases without permission.
+
+See `LICENSE`, `COPYRIGHT.md`, and `CONTRIBUTING.md`.
 
 ## What it does
 
-ThothScript currently includes:
-
 - Plain-text, code, and Markdown editing
 - Multi-file tabs and recent files
-- Folder explorer with a fully collapsible sidebar
+- Folder explorer with collapsible sidebar
 - Workspace save/load
-- Find and workspace-wide search
-- Search-and-replace with automatic safety backups
+- Find and workspace-wide search/replace with safety backups
 - Regex, case-sensitive, and whole-word search modes
-- Markdown preview
-- Command palette
+- Markdown preview and command palette
 - Focus mode
 - Autosave recovery and session restore
-- Clean-content printing
-- PDF export
-- Basic large-file guards to reduce accidental renderer freezes
+- Clean-content printing and PDF export
+- Basic large-file guards
 
 ## Clone, verify, run
-
-ThothScript now includes a contributor-facing diagnostic and lightweight test suite so a clean checkout can be verified before launching the desktop app.
 
 ```bash
 git clone https://github.com/DrDixonBudtzMD/ThothScript.git
 cd ThothScript
 npm ci
-npm run doctor
-npm run check
-npm test
+npm run verify
 npm start
 ```
 
-Or run the full non-GUI verification chain with:
-
-```bash
-npm run verify
-```
-
-`npm run doctor` checks the expected source tree, Node version, package metadata, lockfile alignment, Electron/packager declarations, and other project assumptions. It is intended to make environment problems obvious before debugging the application itself.
+`npm run doctor`, `npm run check`, and `npm test` are also available individually.
 
 ## Windows test builds
 
-The repository contains a **Windows Package** GitHub Actions workflow. Pull requests that affect application/package files build a Windows x64 artifact after verification, and maintainers can run the workflow manually at any time.
-
-These artifacts are development/test builds, not code-signed stable releases. They exist so testers can try a reproducible packaged application without building it themselves.
-
-For a local package on Windows:
-
-```bash
-npm run package-win
-```
+The repository contains a Windows Package GitHub Actions workflow. Development artifacts are test builds, not code-signed stable releases. For a local package on Windows run `npm run package-win`.
 
 ## Requirements
 
 - Node.js 22.12 or newer
 - npm
-- A supported desktop environment for Electron
-
-The project uses Electron `^43.4.0` and `@electron/packager` `^20.3.0` as development dependencies. Dependency resolution is pinned by the committed `package-lock.json`.
+- A supported Electron desktop environment
 
 ## Repository layout
 
 ```text
-ThothScript/
-├── .github/          # CI, package workflow, Dependabot, issue templates
-├── docs/             # architecture and development guides
-├── scripts/          # project diagnostics / contributor tooling
-├── tests/            # lightweight Node tests and security invariants
-├── main.js           # Electron main process and filesystem/printing IPC
-├── preload.js        # contextBridge API exposed to the renderer
-├── renderer.js       # editor UI behavior
-├── index.html        # application shell and CSP
-├── styles.css        # application styling
-├── package.json      # project metadata and commands
-└── package-lock.json # reproducible dependency graph
+.github/          CI, package workflow, Dependabot, issue templates
+docs/             architecture and development guides
+scripts/          diagnostics / contributor tooling
+tests/            Node tests and security invariants
+main.js           Electron main process
+preload.js        contextBridge API
+renderer.js       editor UI behavior
+index.html        application shell and CSP
+styles.css        styling
 ```
-
-For an architectural map, see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). For a contributor walkthrough, see [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
 
 ## Security model
 
-The primary application window uses:
-
-- `contextIsolation: true`
-- `nodeIntegration: false`
-- `sandbox: true`
-- a narrow preload/contextBridge API for privileged operations
-- explicit interception of unexpected navigation/window-open requests
-- a Content Security Policy that limits renderer resource loading
-
-Filesystem, printing, PDF, recovery, and workspace operations remain in the Electron main process and are invoked through IPC.
-
-The automated test suite also checks that core Electron isolation controls and the renderer CSP remain present, so accidental security regressions are caught in CI.
-
-See [SECURITY.md](SECURITY.md) for vulnerability reporting and release-security notes.
-
-## Data and recovery
-
-ThothScript stores recovery/session information in the application's user-data directory. Workspace-wide replacement creates safety backups before modifying files.
-
-Users should still keep independent backups or version control for important work. Recovery features are a safety net, not a substitute for backups.
+The primary window uses context isolation, disabled Node integration, renderer sandboxing, a narrow preload API, blocked unexpected navigation/window creation, and a restrictive Content Security Policy. See `SECURITY.md`.
 
 ## Automated checks
 
-Every pull request to `main` runs on Windows and Linux and performs:
-
-```text
-npm ci
-npm run doctor
-npm run check
-npm test
-```
-
-Dependabot monitors npm and GitHub Actions dependencies. Application/package changes also trigger a Windows packaging job that uploads the packaged application as a temporary Actions artifact.
-
-## v0.4 community-foundation work
-
-The current development cycle is focused on making the repository useful to people other than its original developer:
-
-- self-diagnostic `npm run doctor` command
-- built-in Node test suite
-- explicit architecture documentation
-- clone-to-run development instructions
-- structured bug and feature-request templates
-- reproducible Windows package artifacts in GitHub Actions
-- stronger CI gates around security-sensitive Electron configuration
-
-The editor remains intentionally small while the surrounding engineering/release structure becomes more professional.
+Pull requests to `main` run verification on Windows and Linux. Dependabot monitors npm and GitHub Actions dependencies, and application/package changes can trigger Windows packaging.
 
 ## Roadmap
 
-Near-term work includes:
-
-- complete Windows runtime smoke tests against packaged artifacts
-- smoke-test open/save/search/replace/recovery/Markdown/print/PDF workflows with sandboxing enabled
-- expose clearer in-app About/diagnostics information
-- improve IPC input validation
-- signed release builds
-- optional Monaco editor layer while retaining the stable textarea fallback
-- broader Windows/macOS/Linux validation
+Near-term work includes packaged Windows smoke testing, improved diagnostics, stronger IPC validation, signed releases, optional Monaco integration with the stable textarea fallback, and broader platform validation.
 
 ## Contributing
 
-Bug reports, reproducible test cases, documentation corrections, usability feedback and feature discussions are welcome. Substantial third-party source-code contributions remain intentionally limited until the project adopts explicit licensing/contributor terms.
+**Community source-code pull requests are welcome.** See `CONTRIBUTING.md` and `docs/DEVELOPMENT.md`. Maintainers review changes for scope, safety, maintainability, and compatibility with the project's GPL/open-development philosophy.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
+## Support
+
+See `SUPPORT.md` for optional Patreon and PayPal support. Financial support does not purchase ownership, equity, IP rights, or special licensing rights.
 
 ## License and copyright
 
-No open-source license has been granted for ThothScript at this time. Public visibility on GitHub does **not** by itself grant permission to copy, redistribute, modify, sublicense, or commercially exploit the project beyond rights provided by applicable law and GitHub's platform terms.
-
-See [COPYRIGHT.md](COPYRIGHT.md) for the current project notice. A deliberate open-source or commercial licensing model may be adopted later.
+Source code is licensed under **GPL-3.0-or-later**. See `LICENSE` and `COPYRIGHT.md`. Third-party dependencies/assets remain under their own licenses.
 
 ## Changelog
 
-See [CHANGELOG.md](CHANGELOG.md).
+See `CHANGELOG.md`.
