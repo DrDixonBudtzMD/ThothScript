@@ -42,7 +42,7 @@ jobs:
         run: npm run package-win -- --out=artifacts
 
       - name: Upload packaged application
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ThothScript-Windows-x64-${{ github.sha }}
           path: artifacts/ThothScript-win32-x64/
