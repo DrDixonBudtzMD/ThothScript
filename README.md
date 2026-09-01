@@ -91,3 +91,7 @@ Source code is licensed under **GPL-3.0-or-later**. See `LICENSE` and `COPYRIGHT
 ## Changelog
 
 See `CHANGELOG.md`.
+
+## Standalone-first deployment
+
+This project does not require Groundstate Admin Center or a Groundstate account. Core operation remains local and independently deployable. See [docs/STANDALONE_OPERATION.md](docs/STANDALONE_OPERATION.md) for the product-specific identity and outage boundary.
