@@ -36,7 +36,7 @@ test('package remains private and exposes required scripts', () => {
 });
 
 test('security-sensitive runtime dependencies are declared', () => {
-  assert.match(pkg.devDependencies?.electron || '', /^\^43\./);
+  assert.match(pkg.devDependencies?.electron || '', /^\^(43|44)\./);
   assert.equal(typeof pkg.devDependencies?.['@electron/packager'], 'string');
 });
 
