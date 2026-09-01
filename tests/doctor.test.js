@@ -16,7 +16,8 @@ const requiredFiles = [
   'styles.css',
   'README.md',
   'SECURITY.md',
-  'COPYRIGHT.md'
+  'COPYRIGHT.md',
+  'docs/STANDALONE_OPERATION.md'
 ];
 
 test('required application files exist', () => {
@@ -33,6 +34,11 @@ test('package remains private and exposes required scripts', () => {
   assert.equal(typeof pkg.scripts?.doctor, 'string');
   assert.equal(typeof pkg.scripts?.test, 'string');
   assert.match(pkg.scripts?.check || '', /community-ui\.js/);
+});
+
+test('editor core has no required organization identity dependency', () => {
+  const allDependencies = { ...(pkg.dependencies || {}), ...(pkg.devDependencies || {}) };
+  for (const name of ['openid-client', 'passport', '@auth0/auth0-react']) assert.equal(allDependencies[name], undefined);
 });
 
 test('security-sensitive runtime dependencies are declared', () => {
