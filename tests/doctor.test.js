@@ -63,6 +63,14 @@ test('main window keeps Electron isolation controls', () => {
   assert.match(main, /sandbox:\s*true/);
 });
 
+test('workspace replacement backs up files before writing', () => {
+  const main = fs.readFileSync(path.join(root, 'main.js'), 'utf8');
+  const copy = main.indexOf('fs.copyFileSync(filePath, backupPath)');
+  const write = main.indexOf("fs.writeFileSync(filePath, content.replace(matcher, replace), 'utf8')");
+  assert.ok(copy >= 0, 'missing replacement backup');
+  assert.ok(write > copy, 'replacement write must happen after backup');
+});
+
 test('community UI keeps unsaved-work protection and diagnostics entry points', () => {
   const ui = fs.readFileSync(path.join(root, 'community-ui.js'), 'utf8');
   assert.match(ui, /discard unsaved changes/i);
